@@ -341,7 +341,7 @@ workflows:
   send-notification:
       jobs:
         - notify:
-            context: slack-secrets
+            context: my-context
   default:
     jobs:
       - build-frontend
