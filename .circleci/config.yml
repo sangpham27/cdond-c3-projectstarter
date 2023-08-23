@@ -1,6 +1,10 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.12.5
+executors:
+  aws:
+    docker:
+      - image: amazon/aws-cli
 commands:
   install_ansible:
     description: Install Ansible
@@ -20,8 +24,7 @@ commands:
       workflow_id:
         default: ${CIRCLE_WORKFLOW_ID:0:7}
         type: string
-    docker:
-      - image: amazon/aws-cli
+
     steps:
       - run:
           name: Destroy environments
