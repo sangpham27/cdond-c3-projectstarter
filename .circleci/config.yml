@@ -1,11 +1,17 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.12.5
-executors:
-  aws:
-    docker:
-      - image: amazon/aws-cli
 commands:
+  install_awscli:
+    description: Install AWS cli
+    steps:
+      - run:
+          name: Install AWS cli
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
   install_ansible:
     description: Install Ansible
     steps:
@@ -250,6 +256,7 @@ jobs:
       - attach_workspace:
           at: ~/
 
+      - install_awscli
       - install_ansible
 
       - run:
