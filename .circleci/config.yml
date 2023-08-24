@@ -405,7 +405,7 @@ jobs:
             echo backend ${CIRCLE_WORKFLOW_ID:0:7}
             echo ${API_URL}
             echo "${API_URL}/api/status"
-            if curl "${API_URL}/api/status" | grep "ok"
+            if curl -s ${API_URL}/api/status | grep "ok"
             then
               return 0
             else
