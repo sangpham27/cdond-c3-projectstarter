@@ -1,4 +1,4 @@
----
+<!-- ---
 - name: "Creates backend app directory"
   file:
     path: ~/backend-app
@@ -35,4 +35,4 @@
 - name: "Configure pm2 to start as service"
   become: true
   shell: |
-    env PATH:$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+    env PATH:$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu -->
