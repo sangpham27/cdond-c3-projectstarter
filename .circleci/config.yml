@@ -392,7 +392,7 @@ jobs:
       - install_nodejs
       - install_awscli
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
             # your code here
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
@@ -407,12 +407,12 @@ jobs:
             echo "${API_URL}/api/status"
             if curl -s ${API_URL}/api/status | grep "ok"
             then
-              return 0
+              exit 0
             else
-              return 1
+              exit 1
             fi
       - run:
-          name: Backend smoke test.
+          name: Frontend smoke test.
           command: |
             # your code here
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
@@ -424,10 +424,6 @@ jobs:
             else
               return 1
             fi
-      - run:
-          name: Frontend smoke test.
-          command: |
-            # your code here
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
       - revert-migrations 
