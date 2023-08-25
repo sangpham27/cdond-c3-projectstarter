@@ -9,6 +9,20 @@
     src: artifact.tar.gz
     dest: ~/backend-app
 
+- name: "install dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    update_cache: yes
+    
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
 - name: "Installing Node deps"
   shell: |
     cd ~/backend-app
