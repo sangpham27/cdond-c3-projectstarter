@@ -9,6 +9,11 @@
     src: artifact.tar.gz
     dest: ~/backend-app
 
+- name: "Add Node.js from source"
+  become: true
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+
 - name: "Installing Node deps"
   shell: |
     cd ~/backend-app
