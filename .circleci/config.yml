@@ -392,6 +392,10 @@ jobs:
       - install_nodejs
       - install_awscli
       - run:
+          name: Install dependencies (Curl)
+          command: |
+              apt-get -y install curl
+      - run:
           name: Backend smoke test.
           command: |
             # your code here
@@ -404,11 +408,11 @@ jobs:
             echo backend ${CIRCLE_WORKFLOW_ID:0:7}
             echo ${API_URL}
             echo "${API_URL}/api/status"
-            if curl -s $API_URL/api/status | grep "ok"
+            if curl "${API_URL}/api/status" | grep "ok"
             then
-              return 0
+              exit 0
             else
-              return 1
+              exit 1
             fi
       - run:
           name: Frontend smoke test.
