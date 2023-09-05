@@ -262,7 +262,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "9c:c4:a3:84:11:4d:2f:dc:e1:24:33:f7:d4:f0:05:af"
-      # attach workspace
       - attach_workspace:
           at: ~/
 
@@ -273,8 +272,15 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            mkdir .ssh
+            cd .ssh
+            eval `ssh-agent`
+            chmod 400 keyp3.pem
+            ssh-add keyp3.pem 
+            cd ..
+
             cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt -u ubuntu --private-key .ssh/keyp3.pem configure-server.yml
       # Here's where you will add some code to rollback on failure   
       - destroy-environment   
 
