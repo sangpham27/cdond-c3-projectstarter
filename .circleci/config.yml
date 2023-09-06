@@ -282,7 +282,6 @@ jobs:
     docker:
       # Docker image here that supports NodeJS
       - image: circleci/node:13.8.0
-      - image: python:3.7-alpine3.11
     parameters:
       workflow_id:
         default: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -290,25 +289,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk update
-            apk upgrade
-            apk add unzip 
-            apk add curl
-            /usr/local/bin/python -m pip install --upgrade pip    
-      - run:
-          name: Install node
-          command: |
-            apk add --update nodejs nodejs-npm
-      - run:
-          name: AWS CLI 
-          command: |
-            pip install awscli --upgrade
-            aws --version
+      - install_awscli
       - run:
           name: Run migrations
           command: |
@@ -320,7 +301,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/DATaipG6sCCMD5xntxUtkQ/migration_<<parameters.workflow_id>>  -d '1'
+              curl https://kvdb.io/DATaipG6sCCMD5xntxUtkQ/migration_<<parameters.workflow_id>> -d '1'
             fi
       # Here's where you will add some code to rollback on failure     
       - destroy-environment
