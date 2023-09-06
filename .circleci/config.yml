@@ -289,6 +289,25 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk update
+            apk upgrade
+            apk add unzip 
+            apk add curl
+            /usr/local/bin/python -m pip install --upgrade pip    
+      - run:
+          name: Install node
+          command: |
+            apk add --update nodejs nodejs-npm
+      - run:
+          name: AWS CLI 
+          command: |
+            pip install awscli --upgrade
+            aws --version
       - run:
           name: Run migrations
           command: |
@@ -304,7 +323,6 @@ jobs:
             fi
       # Here's where you will add some code to rollback on failure     
       - destroy-environment
-      - revert-migrations 
 
   deploy-frontend:
     docker:
