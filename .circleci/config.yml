@@ -282,6 +282,7 @@ jobs:
     docker:
       # Docker image here that supports NodeJS
       - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.11
     parameters:
       workflow_id:
         default: ${CIRCLE_WORKFLOW_ID:0:7}
