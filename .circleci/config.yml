@@ -282,6 +282,10 @@ jobs:
     docker:
       # Docker image here that supports NodeJS
       - image: circleci/node:13.8.0
+    parameters:
+      workflow_id:
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
+        type: string
     steps:
       # Checkout code from git
       - checkout
